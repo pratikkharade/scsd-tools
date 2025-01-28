@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import JSZip from 'jszip';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
-import JSZip from 'jszip';
+import "./css.css";
 
 const ExcelToPdf = () => {
     const [excelData, setExcelData] = useState([]);
+    const [checkedArray, setCheckedArray] = useState([]);
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
@@ -57,6 +59,9 @@ const ExcelToPdf = () => {
         const nameCount = {};
 
         for (let i = 0; i < excelData.length; i++) {
+            if (!checkedArray.includes(i)) {
+                continue;
+            }
             const row = excelData[i];
 
             const { pdfData, fileName } = await generatePdfForRow(row, nameCount);
@@ -71,13 +76,74 @@ const ExcelToPdf = () => {
         });
     };
 
+    const handleRowCheckboxClick = (e, val) => {
+        const isChecked = e.target.checked;
+        setCheckedArray((prevCheckedArray) => {
+            if (isChecked) {
+                return [...prevCheckedArray, val];
+            } else {
+                return prevCheckedArray.filter(id => id !== val);
+            }
+        });
+    }
+
+    const handleSelectAllToggle = (e) => {
+        const isChecked = e.target.checked;
+        if (isChecked) {
+            setCheckedArray(excelData.map((data, idx) => idx));
+        } else {
+            setCheckedArray([]);
+        }
+    }
+
     return (
-        <div>
+        <div className='app-container'>
             <h2 style={{ marginTop: 0 }}>Excel to PDF Generator</h2>
             <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
-            <button onClick={generateZip} disabled={!excelData.length}>
-                Export ZIP
-            </button>
+
+            {excelData.length !== 0 &&
+                <div className='excel-data-container'>
+                    <table className='excel-data-table'>
+                        <thead>
+                            <tr>
+                                <th>
+                                    {checkedArray.length === excelData.length && 
+                                        <label>Unselect All</label>
+                                    }
+                                    {checkedArray.length !== excelData.length && 
+                                        <label>Select All</label>
+                                    }
+                                    <br></br>
+                                    <input type='checkbox' onChange={e => handleSelectAllToggle(e)}></input>
+                                </th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Submitted At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {excelData.map((element, index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <input type='checkbox' value={index}
+                                            checked={checkedArray.includes(index)}
+                                            onChange={e => { handleRowCheckboxClick(e, index)}}
+                                        />
+                                    </td>
+                                    <td>{element['First Name']}</td>
+                                    <td>{element['Last Name']}</td>
+                                    <td>{element['Timestamp']}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            }
+            {excelData.length !== 0 &&
+                <button className='export-button' onClick={generateZip} disabled={!checkedArray.length}>
+                    Export ZIP
+                </button>
+            }
         </div>
     );
 };
