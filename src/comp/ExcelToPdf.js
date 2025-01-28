@@ -14,19 +14,30 @@ const ExcelToPdf = () => {
             const data = new Uint8Array(e.target.result);
             const workbook = XLSX.read(data, { type: 'array' });
             const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-            const rows = XLSX.utils.sheet_to_json(firstSheet);
+            const rows = XLSX.utils.sheet_to_json(firstSheet, {
+                raw: false,
+            });
             setExcelData(rows);
         };
-
         reader.readAsArrayBuffer(file);
     };
 
-    const generatePdfForRow = (row, index, nameCount) => {
-        const pdf = new jsPDF();
-        const lineHeight = 10;
+    const generatePdfForRow = (row, nameCount) => {
+        let yOffset = 10;
         const margin = 10;
-        const pageWidth = pdf.internal.pageSize.width;
-        let yOffset = 20; // Start from a higher point on the page
+        const lineHeight = 10;
+        const pdf = new jsPDF();
+
+        // Loop through each key-value pair
+        Object.entries(row).forEach(([key, value], i) => {
+            pdf.setFontSize(10);
+            pdf.text(`${key}:`, margin, yOffset);
+            yOffset += lineHeight;
+
+            pdf.setFontSize(12);
+            pdf.text(`${value}`, margin, yOffset);
+            yOffset += lineHeight + 5;
+        });
 
         // Handle naming convention
         let fileName = row['First Name'];
@@ -38,38 +49,17 @@ const ExcelToPdf = () => {
         }
         fileName += '_Questionnaire';
 
-        yOffset += lineHeight + 5; // Adjust yOffset for next line
-
-        console.log(row);
-        // Loop through each key-value pair
-        Object.entries(row).forEach(([key, value], i) => {
-            // Set font for key (smaller size)
-            pdf.setFontSize(10);
-            pdf.text(`${key}:`, margin, yOffset);
-
-            yOffset += lineHeight; // Adjust yOffset for next line
-
-            if (key == 'Timestamp') {
-                console.log(value);
-            }
-            // console.log(key);
-            // Set font for value (larger size)
-            pdf.setFontSize(12);
-            pdf.text(`${value}`, margin, yOffset); // Add some space for the value
-
-            yOffset += lineHeight + 5; // Adjust yOffset for next line
-        });
-
         return { pdfData: pdf.output('arraybuffer'), fileName };
     };
-    
+
     const generateZip = async () => {
         const zip = new JSZip();
-        const nameCount = {};  // Keep track of name counts to avoid duplicates
+        const nameCount = {};
 
         for (let i = 0; i < excelData.length; i++) {
             const row = excelData[i];
-            const { pdfData, fileName } = await generatePdfForRow(row, i, nameCount);
+
+            const { pdfData, fileName } = await generatePdfForRow(row, nameCount);
             zip.file(`${fileName}.pdf`, pdfData);
         }
 
@@ -83,7 +73,7 @@ const ExcelToPdf = () => {
 
     return (
         <div>
-            <h2 style={{marginTop: 0}}>Excel to PDF Generator</h2>
+            <h2 style={{ marginTop: 0 }}>Excel to PDF Generator</h2>
             <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
             <button onClick={generateZip} disabled={!excelData.length}>
                 Export ZIP
