@@ -2,6 +2,7 @@
   "name": "excel-to-pdfs",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://pratikkharade.github.io/excel-to-pdfs/",
   "dependencies": {
     "cra-template": "1.2.0",
     "jspdf": "^2.5.2",
@@ -12,6 +13,8 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

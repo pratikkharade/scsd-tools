@@ -83,7 +83,7 @@ const ExcelToPdf = () => {
 
     return (
         <div>
-            <h2>Excel to PDF Generator</h2>
+            <h2 style={{marginTop: 0}}>Excel to PDF Generator</h2>
             <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
             <button onClick={generateZip} disabled={!excelData.length}>
                 Export ZIP
