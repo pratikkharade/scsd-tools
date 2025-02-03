@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import JSZip from 'jszip';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
@@ -7,6 +7,10 @@ import "./css.css";
 const ExcelToPdf = () => {
     const [excelData, setExcelData] = useState([]);
     const [checkedArray, setCheckedArray] = useState([]);
+
+    useEffect(() => {
+        setCheckedArray([]);
+    }, [excelData]);
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
@@ -29,17 +33,20 @@ const ExcelToPdf = () => {
         const margin = 10;
         const lineHeight = 10;
         const pdf = new jsPDF();
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const maxWidth = pageWidth - 2 * margin;
 
-        // Loop through each key-value pair
-        Object.entries(row).forEach(([key, value], i) => {
-            pdf.setFontSize(10);
-            pdf.text(`${key}:`, margin, yOffset);
-            yOffset += lineHeight;
-
-            pdf.setFontSize(12);
-            pdf.text(`${value}`, margin, yOffset);
-            yOffset += lineHeight + 5;
-        });
+        pdf.setFontSize(16);
+        pdf.text('QUESTIONNAIRE', margin, yOffset);
+        yOffset += lineHeight + 5;
+        
+        pdf.setFontSize(12);
+        let content = Object.entries(row)
+            .map(([key, value]) => `Q. ${key}\nAns. ${value}`)
+            .join('\n\n');
+        
+        const wrappedText = pdf.splitTextToSize(content, maxWidth);
+        pdf.text(wrappedText, margin, yOffset);
 
         // Handle naming convention
         let fileName = row['First Name'];
@@ -107,14 +114,18 @@ const ExcelToPdf = () => {
                         <thead>
                             <tr>
                                 <th>
-                                    {checkedArray.length === excelData.length && 
+                                    {checkedArray.length === excelData.length &&
                                         <label>Unselect All</label>
                                     }
-                                    {checkedArray.length !== excelData.length && 
+                                    {checkedArray.length !== excelData.length &&
                                         <label>Select All</label>
                                     }
                                     <br></br>
-                                    <input type='checkbox' onChange={e => handleSelectAllToggle(e)}></input>
+                                    <input type='checkbox'
+                                        checked={excelData.length === checkedArray.length}
+                                        onChange={e => handleSelectAllToggle(e)}>
+
+                                    </input>
                                 </th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
@@ -127,7 +138,7 @@ const ExcelToPdf = () => {
                                     <td>
                                         <input type='checkbox' value={index}
                                             checked={checkedArray.includes(index)}
-                                            onChange={e => { handleRowCheckboxClick(e, index)}}
+                                            onChange={e => { handleRowCheckboxClick(e, index) }}
                                         />
                                     </td>
                                     <td>{element['First Name']}</td>
