@@ -37,10 +37,13 @@ const ExcelToPdf = () => {
         const pageHeight = pdf.internal.pageSize.getHeight();
         const maxWidth = pageWidth - 2 * margin;
 
+        const lastName = row['Last Name'];
+        const firstName = row['First Name'];
+
         let yOffset = margin;
 
         pdf.setFontSize(16);
-        pdf.text('QUESTIONNAIRE', margin, yOffset);
+        pdf.text(`${firstName} ${lastName} - Questionnaire`, margin, yOffset);
         yOffset += lineHeight + newLine;
 
         pdf.setFontSize(12);
@@ -60,7 +63,7 @@ const ExcelToPdf = () => {
         });
 
         // Handle naming convention
-        let fileName = row['First Name'];
+        let fileName = firstName;
         if (nameCount[fileName]) {
             nameCount[fileName] += 1;
             fileName = `${fileName}_${nameCount[fileName]}`;
