@@ -29,17 +29,19 @@ const ExcelToPdf = () => {
     };
 
     const generatePdfForRow = (row, nameCount) => {
-        let yOffset = 10;
         const margin = 10;
+        const newLine = 5;
         const lineHeight = 10;
         const pdf = new jsPDF();
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
         const maxWidth = pageWidth - 2 * margin;
 
+        let yOffset = margin;
+
         pdf.setFontSize(16);
         pdf.text('QUESTIONNAIRE', margin, yOffset);
-        yOffset += lineHeight + 5;
+        yOffset += lineHeight + newLine;
 
         pdf.setFontSize(12);
         let content = Object.entries(row)
@@ -48,13 +50,13 @@ const ExcelToPdf = () => {
 
         const wrappedText = pdf.splitTextToSize(content, maxWidth);
 
-        wrappedText.forEach(line => {
-            if (yOffset + lineHeight > pageHeight - margin) {
+        wrappedText.forEach((line) => {
+            if (yOffset + newLine > pageHeight - 2 * margin) {
                 pdf.addPage();
-                yOffset = margin; // Reset y for the new page
+                yOffset = margin;
             }
             pdf.text(line, margin, yOffset);
-            yOffset += lineHeight;
+            yOffset += newLine;
         });
 
         // Handle naming convention
