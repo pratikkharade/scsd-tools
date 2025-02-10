@@ -34,19 +34,28 @@ const ExcelToPdf = () => {
         const lineHeight = 10;
         const pdf = new jsPDF();
         const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
         const maxWidth = pageWidth - 2 * margin;
 
         pdf.setFontSize(16);
         pdf.text('QUESTIONNAIRE', margin, yOffset);
         yOffset += lineHeight + 5;
-        
+
         pdf.setFontSize(12);
         let content = Object.entries(row)
             .map(([key, value]) => `Q. ${key}\nAns. ${value}`)
             .join('\n\n');
-        
+
         const wrappedText = pdf.splitTextToSize(content, maxWidth);
-        pdf.text(wrappedText, margin, yOffset);
+
+        wrappedText.forEach(line => {
+            if (yOffset + lineHeight > pageHeight - margin) {
+                pdf.addPage();
+                yOffset = margin; // Reset y for the new page
+            }
+            pdf.text(line, margin, yOffset);
+            yOffset += lineHeight;
+        });
 
         // Handle naming convention
         let fileName = row['First Name'];
