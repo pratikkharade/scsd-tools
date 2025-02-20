@@ -79,6 +79,16 @@ const ExcelToPdf = () => {
         const zip = new JSZip();
         const nameCount = {};
 
+        if (checkedArray.length === 1) {
+            const { pdfData, fileName } = await generatePdfForRow(excelData[checkedArray[0]], nameCount);
+            const blob = new Blob([pdfData], { type: 'application/pdf' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${fileName}.pdf`;
+            link.click();
+            return;
+        }
+
         for (let i = 0; i < excelData.length; i++) {
             if (!checkedArray.includes(i)) {
                 continue;
