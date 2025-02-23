@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import JSZip from 'jszip';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import "./css.css";
 
 const ExcelToPdf = () => {
+    const isQtcToggle = useRef();
+    const [isQtc, setIsQtc] = useState(false);
     const [excelData, setExcelData] = useState([]);
     const [checkedArray, setCheckedArray] = useState([]);
 
     useEffect(() => {
+        setIsQtc(false);
         setCheckedArray([]);
+        if (isQtcToggle.current) {
+            isQtcToggle.current.checked = false;
+        }
     }, [excelData]);
 
     const handleFileUpload = (event) => {
@@ -42,17 +48,27 @@ const ExcelToPdf = () => {
 
         let yOffset = margin;
 
+        // PDF HEADER
         pdf.setFontSize(16);
         pdf.text(`${firstName} ${lastName} - Questionnaire`, margin, yOffset);
         yOffset += lineHeight + newLine;
 
+        // CONTENT FORMATTING
         pdf.setFontSize(12);
         let content = Object.entries(row)
-            .map(([key, value]) => `Q. ${key}\nAns. ${value}`)
-            .join('\n\n');
+            .map(([key, value], index) => {
+                if (isQtc && index >= 3 && index <9) {
+                    return `${key} ${value}`
+                } else if (isQtc && index ===9) {
+                        return `${key} ${value}\n`
+                } else {
+                    return `Q. ${key}\nAns. ${value}\n`
+                }
+            }).join('\n');
 
         const wrappedText = pdf.splitTextToSize(content, maxWidth);
 
+        // WRITE TO PDF
         wrappedText.forEach((line) => {
             if (yOffset + newLine > pageHeight - 2 * margin) {
                 pdf.addPage();
@@ -62,7 +78,7 @@ const ExcelToPdf = () => {
             yOffset += newLine;
         });
 
-        // Handle naming convention
+        // NAMING CONVENTION
         let fileName = firstName;
         if (nameCount[fileName]) {
             nameCount[fileName] += 1;
@@ -107,8 +123,7 @@ const ExcelToPdf = () => {
         });
     };
 
-    const handleRowCheckboxClick = (e, val) => {
-        const isChecked = e.target.checked;
+    const handleRowSelectCheckboxClick = (isChecked, val) => {
         setCheckedArray((prevCheckedArray) => {
             if (isChecked) {
                 return [...prevCheckedArray, val];
@@ -118,13 +133,16 @@ const ExcelToPdf = () => {
         });
     }
 
-    const handleSelectAllToggle = (e) => {
-        const isChecked = e.target.checked;
+    const handleSelectAllToggle = (isChecked) => {
         if (isChecked) {
             setCheckedArray(excelData.map((data, idx) => idx));
         } else {
             setCheckedArray([]);
         }
+    }
+
+    const handleIsQtcToggle = () => {
+        setIsQtc(isQtcToggle.current.checked);
     }
 
     return (
@@ -133,50 +151,60 @@ const ExcelToPdf = () => {
             <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
 
             {excelData.length !== 0 &&
-                <div className='excel-data-container'>
-                    <table className='excel-data-table'>
-                        <thead>
-                            <tr>
-                                <th>
-                                    {checkedArray.length === excelData.length &&
-                                        <label>Unselect All</label>
-                                    }
-                                    {checkedArray.length !== excelData.length &&
-                                        <label>Select All</label>
-                                    }
-                                    <br></br>
-                                    <input type='checkbox'
-                                        checked={excelData.length === checkedArray.length}
-                                        onChange={e => handleSelectAllToggle(e)}>
+                <>
+                    <div className='is-qtc-toggle'>
+                        Is QTC ?
+                        <label className="switch" onClick={handleIsQtcToggle}>
 
-                                    </input>
-                                </th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Submitted At</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {excelData.map((element, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        <input type='checkbox' value={index}
-                                            checked={checkedArray.includes(index)}
-                                            onChange={e => { handleRowCheckboxClick(e, index) }}
-                                        />
-                                    </td>
-                                    <td>{element['First Name']}</td>
-                                    <td>{element['Last Name']}</td>
-                                    <td>{element['Timestamp']}</td>
+                            <input type="checkbox" ref={isQtcToggle}/>
+                            <span className="slider"></span>
+                        </label>
+                    </div>
+                    <div className='excel-data-container'>
+                        <table className='excel-data-table'>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        {checkedArray.length === excelData.length &&
+                                            <label>Unselect All</label>
+                                        }
+                                        {checkedArray.length !== excelData.length &&
+                                            <label>Select All</label>
+                                        }
+                                        <br></br>
+                                        <input type='checkbox'
+                                            checked={excelData.length === checkedArray.length}
+                                            onChange={e => handleSelectAllToggle(e.target.checked)}>
+
+                                        </input>
+                                    </th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Submitted At</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {excelData.map((element, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            <input type='checkbox' value={index}
+                                                checked={checkedArray.includes(index)}
+                                                onChange={e => handleRowSelectCheckboxClick(e.target.checked, index)}
+                                            />
+                                        </td>
+                                        <td>{element['First Name']}</td>
+                                        <td>{element['Last Name']}</td>
+                                        <td>{element['Timestamp']}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </>
             }
             {excelData.length !== 0 &&
                 <button className='export-button' onClick={generateZip} disabled={!checkedArray.length}>
-                    Export ZIP
+                    Export
                 </button>
             }
         </div>
