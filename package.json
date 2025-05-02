@@ -1,8 +1,8 @@
 {
-  "name": "excel-to-pdfs",
+  "name": "scsd-tools",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://pratikkharade.github.io/excel-to-pdfs/",
+  "homepage": "https://pratikkharade.github.io/scsd-tools/",
   "dependencies": {
     "cra-template": "1.2.0",
     "jspdf": "^2.5.2",
