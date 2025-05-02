@@ -1,11 +1,13 @@
 import './App.css';
 import ExcelToPdf from './comp/ExcelToPdf';
+import Home from './comp/Home';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <ExcelToPdf />
+        {/* <ExcelToPdf /> */}
+        <Home />
       </header>
     </div>
   );
