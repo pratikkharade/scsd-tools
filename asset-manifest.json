@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/excel-to-pdfs/static/css/main.5656720f.css",
-    "main.js": "/excel-to-pdfs/static/js/main.9f6cb3f2.js",
-    "static/js/239.45665ade.chunk.js": "/excel-to-pdfs/static/js/239.45665ade.chunk.js",
-    "static/js/213.cab421fb.chunk.js": "/excel-to-pdfs/static/js/213.cab421fb.chunk.js",
-    "static/js/732.b389f8de.chunk.js": "/excel-to-pdfs/static/js/732.b389f8de.chunk.js",
-    "static/js/146.663cc0cc.chunk.js": "/excel-to-pdfs/static/js/146.663cc0cc.chunk.js",
-    "index.html": "/excel-to-pdfs/index.html",
-    "main.5656720f.css.map": "/excel-to-pdfs/static/css/main.5656720f.css.map",
-    "main.9f6cb3f2.js.map": "/excel-to-pdfs/static/js/main.9f6cb3f2.js.map",
-    "239.45665ade.chunk.js.map": "/excel-to-pdfs/static/js/239.45665ade.chunk.js.map",
-    "213.cab421fb.chunk.js.map": "/excel-to-pdfs/static/js/213.cab421fb.chunk.js.map",
-    "732.b389f8de.chunk.js.map": "/excel-to-pdfs/static/js/732.b389f8de.chunk.js.map",
-    "146.663cc0cc.chunk.js.map": "/excel-to-pdfs/static/js/146.663cc0cc.chunk.js.map"
+    "main.css": "/scsd-tools/static/css/main.5656720f.css",
+    "main.js": "/scsd-tools/static/js/main.88552c69.js",
+    "static/js/239.8cc4247d.chunk.js": "/scsd-tools/static/js/239.8cc4247d.chunk.js",
+    "static/js/213.a5d9177e.chunk.js": "/scsd-tools/static/js/213.a5d9177e.chunk.js",
+    "static/js/732.087d5098.chunk.js": "/scsd-tools/static/js/732.087d5098.chunk.js",
+    "static/js/146.c2c29b46.chunk.js": "/scsd-tools/static/js/146.c2c29b46.chunk.js",
+    "index.html": "/scsd-tools/index.html",
+    "main.5656720f.css.map": "/scsd-tools/static/css/main.5656720f.css.map",
+    "main.88552c69.js.map": "/scsd-tools/static/js/main.88552c69.js.map",
+    "239.8cc4247d.chunk.js.map": "/scsd-tools/static/js/239.8cc4247d.chunk.js.map",
+    "213.a5d9177e.chunk.js.map": "/scsd-tools/static/js/213.a5d9177e.chunk.js.map",
+    "732.087d5098.chunk.js.map": "/scsd-tools/static/js/732.087d5098.chunk.js.map",
+    "146.c2c29b46.chunk.js.map": "/scsd-tools/static/js/146.c2c29b46.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5656720f.css",
-    "static/js/main.9f6cb3f2.js"
+    "static/js/main.88552c69.js"
   ]
 }
