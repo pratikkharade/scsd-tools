@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/scsd-tools/static/css/main.5656720f.css",
-    "main.js": "/scsd-tools/static/js/main.635961f9.js",
+    "main.css": "/scsd-tools/static/css/main.e1acef52.css",
+    "main.js": "/scsd-tools/static/js/main.5c0cd10a.js",
     "static/js/239.8cc4247d.chunk.js": "/scsd-tools/static/js/239.8cc4247d.chunk.js",
     "static/js/213.a5d9177e.chunk.js": "/scsd-tools/static/js/213.a5d9177e.chunk.js",
     "static/js/732.087d5098.chunk.js": "/scsd-tools/static/js/732.087d5098.chunk.js",
     "static/js/146.c2c29b46.chunk.js": "/scsd-tools/static/js/146.c2c29b46.chunk.js",
     "index.html": "/scsd-tools/index.html",
-    "main.5656720f.css.map": "/scsd-tools/static/css/main.5656720f.css.map",
-    "main.635961f9.js.map": "/scsd-tools/static/js/main.635961f9.js.map",
+    "main.e1acef52.css.map": "/scsd-tools/static/css/main.e1acef52.css.map",
+    "main.5c0cd10a.js.map": "/scsd-tools/static/js/main.5c0cd10a.js.map",
     "239.8cc4247d.chunk.js.map": "/scsd-tools/static/js/239.8cc4247d.chunk.js.map",
     "213.a5d9177e.chunk.js.map": "/scsd-tools/static/js/213.a5d9177e.chunk.js.map",
     "732.087d5098.chunk.js.map": "/scsd-tools/static/js/732.087d5098.chunk.js.map",
     "146.c2c29b46.chunk.js.map": "/scsd-tools/static/js/146.c2c29b46.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5656720f.css",
-    "static/js/main.635961f9.js"
+    "static/css/main.e1acef52.css",
+    "static/js/main.5c0cd10a.js"
   ]
 }
