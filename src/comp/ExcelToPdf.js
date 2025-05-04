@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import JSZip from 'jszip';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
-import "./css.css";
+import "./excel_css.css";
 
 const ExcelToPdf = () => {
     const isQtcToggle = useRef();

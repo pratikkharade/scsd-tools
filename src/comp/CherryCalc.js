@@ -1,4 +1,5 @@
 import React, { use, useEffect, useState } from 'react';
+import './cherryCal_css.css';
 
 function CherryCalc(props) {
     const [total, setTotal] = useState(0);
@@ -6,29 +7,24 @@ function CherryCalc(props) {
     const [percent, setPercent] = useState(8.9);
 
     const updateAmount = (e) => {
-        // debugger;
         setAmount(e.target.value);
-        console.log(amount, percent);
     }
     const updatePercent = (e) => {
-        // debugger;
         setPercent(e.target.value);
-        console.log(amount, percent);
     }
     useEffect(() => {
         let charge = ((100 * amount)/(100 - percent)).toFixed(2);
         setTotal(charge);
     }, [amount, percent]);
     return (
-        <div>
-            Cherry Calculator
-            <div>
-                Enter the amount you want to collect:<br/>
-                <input value={amount} onChange={updateAmount}/> <br/>
-                Enter the transaction charges in percent: <br/>
-                <input value={percent} onChange={updatePercent}/> <br/>
-                Total amount that you need to charge: {total}
-            </div>
+        <div className='app-container'>
+            <h2 style={{ marginTop: 0 }}>Cherry Calculator</h2>
+            <div className='cherry-label-small'>Enter the amount you want to collect:</div>
+            <div className='cherry-input'><input value={amount} onChange={updateAmount}/></div>
+            <div className='cherry-label-small'>Enter the transaction charges in percent:</div>
+            <div className='cherry-input'><input value={percent} onChange={updatePercent}/></div>
+            <div className='cherry-label-large'>Total amount that you need to charge:</div>
+            <div className='cherry-total'>{total}</div>
         </div>
     );
 }

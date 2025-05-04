@@ -1,0 +1,69 @@
+.excel-data-container {
+    margin: 2rem 0;
+    font-size: 1rem;
+    overflow-y: auto;
+    max-height: 30rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.excel-data-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.excel-data-container thead th {
+    top: 0;
+    z-index: 1;
+    position: sticky;
+    border: 1px solid #ddd;
+    background-color: #282c34;
+}
+
+.excel-data-container th,
+.excel-data-container td {
+    padding: 8px;
+    min-width: 8rem;
+    border: 1px solid #ddd;
+}
+
+.excel-data-container tbody td {
+    font-size: 14px;
+}
+
+input[type="file"] {
+    display: block;
+    margin: 10px 0;
+    padding: 5px;
+    font-size: 14px;
+    color: #555;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="file"]:hover {
+    background-color: #e6e6e6;
+}
+
+.export-button,
+input[type="file"]::-webkit-file-upload-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.export-button:hover,
+input[type="file"]::-webkit-file-upload-button:hover {
+    background: #0056b3;
+}
+
+button.export-button:disabled {
+    color: #9ca3af;
+    cursor: not-allowed;
+    background-color: #4b5563;
+}

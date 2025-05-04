@@ -1,0 +1,25 @@
+.cherry-label-small {
+    font-size: 1rem;
+}
+.cherry-label-large {
+    font-size: 1.25rem;
+}
+.cherry-input {
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.cherry-total {
+    margin: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 3rem;
+    border-radius: 50%;
+    background-color: green;
+}
+.cherry-input input {
+    color: white;
+    padding: 0.5rem;
+    font-size: 1.25rem;
+    border-radius: 0.5rem;
+    border: 1px solid red;
+    background: transparent;
+}
