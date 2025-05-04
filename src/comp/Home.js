@@ -31,18 +31,18 @@ function Home(props) {
         e.target.classList.toggle('selected');
     }
     return (
-        <div>
+        <>
             <div className='home-tab-header' ref={tabHeader}>
                 <button onClick={e => enableExcelToPdf(e)}>Excel-to-PDF</button>
                 <button onClick={e => enableCherryCalc(e)}>Cherry</button>
                 <button onClick={e => enableCareCreditCalc(e)}>Care Credit</button>
             </div>
-            <div>
+            <>
                 {tool == 'excel' && <ExcelToPdf />}    
                 {tool == 'cherry' && <CherryCalc />}   
                 {tool == 'carecredit'  && <CareCreditCalc />}
-            </div>
-        </div>
+            </>
+        </>
     );
 }
 
